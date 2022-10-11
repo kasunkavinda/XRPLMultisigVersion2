@@ -36,32 +36,43 @@ const main = async () => {
 
   //setting signer list
 
+  // const payload = await client.autofill({
+  //   TransactionType: "SignerListSet",
+  //   Account: master.address,
+  //   Fee: "10", // always get the fee information from ledger directly
+  //   Sequence: account_data.result.account_data.Sequence,
+  //   SignerQuorum: 3,
+  //   SignerEntries: [
+  //     {
+  //       SignerEntry: {
+  //         Account: account1.classicAddress,
+  //         SignerWeight: 2,
+  //       },
+  //     },
+  //     {
+  //       SignerEntry: {
+  //         Account: account2.classicAddress,
+  //         SignerWeight: 1,
+  //       },
+  //     },
+  //     {
+  //       SignerEntry: {
+  //         Account: account3.classicAddress,
+  //         SignerWeight: 1,
+  //       },
+  //     },
+  //   ],
+  // });
+
+  // multi signed payment transaction
+
   const payload = await client.autofill({
-    TransactionType: "SignerListSet",
+    TransactionType: "Payment",
     Account: master.address,
-    Fee: "10", // always get the fee information from ledger directly
+    Destination: destination,
+    Amount: "1000000", //1XRP
+    Fee: String((2 + 1) * 20),
     Sequence: account_data.result.account_data.Sequence,
-    SignerQuorum: 3,
-    SignerEntries: [
-      {
-        SignerEntry: {
-          Account: account1.classicAddress,
-          SignerWeight: 2,
-        },
-      },
-      {
-        SignerEntry: {
-          Account: account2.classicAddress,
-          SignerWeight: 1,
-        },
-      },
-      {
-        SignerEntry: {
-          Account: account3.classicAddress,
-          SignerWeight: 1,
-        },
-      },
-    ],
   });
 
   const wallet = xrpl.Wallet.fromSeed(secret);
